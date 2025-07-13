@@ -1,0 +1,44 @@
+name: Loop Processing Example
+description: Example of loop processing multiple files
+version: "1.0"
+
+variables:
+  sourceFiles:
+    - "src/index.ts"
+    - "src/types.ts"
+    - "src/parser.ts"
+  outputFormat: "markdown"
+
+steps:
+  - type: loop
+    name: Analyze source files
+    iterateOver: sourceFiles
+    itemVariable: currentFile
+    indexVariable: fileIndex
+    maxIterations: 10
+    steps:
+      - type: command
+        name: Check file existence
+        command: 'test -f ${currentFile} && echo "Exists: ${currentFile}" || echo "Not found: ${currentFile}"'
+        continueOnError: true
+        
+      - type: prompt
+        name: Code analysis
+        condition: "${results['check-file']?.success}"
+        prompt: |
+          Analyze the file ${currentFile} and extract the following information:
+          1. Main functionality
+          2. Exported functions/classes
+          3. Dependencies
+          
+          Please output the results in ${outputFormat} format.
+        tools: ["Read"]
+        saveResultAs: "analysis_${fileIndex}"
+        
+  - type: prompt
+    name: Summarize analysis results
+    prompt: |
+      Please summarize the following analysis results and create documentation for the entire project:
+      ${JSON.stringify(results, null, 2)}
+    tools: ["Write"]
+    saveResultAs: projectSummary

@@ -1,0 +1,20 @@
+name: Simple Example
+description: Basic example of Claude Code and command execution
+version: "1.0"
+
+variables:
+  outputDir: "./output"
+
+steps:
+  - type: command
+    name: Create output directory
+    command: mkdir -p ${outputDir}
+    
+  - type: prompt
+    name: Greeting with Claude Code
+    prompt: "Hello! Today is ${new Date().toLocaleDateString('en-US')}. Please give a simple greeting."
+    saveResultAs: greeting
+    
+  - type: command
+    name: Save greeting to file
+    command: echo "${greeting}" > ${outputDir}/greeting.txt

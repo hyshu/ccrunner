@@ -1,0 +1,55 @@
+{
+  "name": "@hyshu/ccrunner",
+  "version": "0.0.1",
+  "description": "An agent runner that executes prompts and commands defined in YAML files.",
+  "main": "dist/index.js",
+  "bin": {
+    "ccrunner": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.51",
+    "yaml": "^2.8.0"
+  },
+  "author": "aq",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/ccrunner.git"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "agent",
+    "runner",
+    "yaml",
+    "automation",
+    "cli"
+  ],
+  "homepage": "https://github.com/yourusername/ccrunner#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/ccrunner/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "README.ja.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.0.13",
+    "tsx": "^4.20.3",
+    "typescript": "^5.0.0"
+  }
+}
