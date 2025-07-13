@@ -1,5 +1,5 @@
-name: Loop Processing Example
-description: Example of loop processing multiple files
+name: Iterate Files Example
+description: Example of iterating over a list of files
 version: "1.0"
 
 variables:

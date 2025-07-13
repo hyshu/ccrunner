@@ -249,23 +249,12 @@ variables:
 
 steps:
   - type: loop
-    name: 5までカウント
-    condition: "${variables.counter < 5}"
-    maxIterations: 10
+    name: 10回繰り返す
+    condition: "${counter < 10}"
     steps:
       - type: command
-        command: echo "カウント: ${variables.counter}"
-
-  # "finish"ファイルまたはフォルダーが存在するまでループ
-  - type: loop
-    name: 終了マーカーまで処理
-    condition: "${!require('fs').existsSync('./finish')}"
-    maxIterations: 100
-    steps:
-      - type: command
-        command: echo "処理中... (停止するには 'finish' ファイルまたはフォルダーを作成してください)"
-      - type: command
-        command: sleep 2
+        command: expr ${counter} + 1
+        saveResultAs: counter
 ```
 
 ### 変数システム

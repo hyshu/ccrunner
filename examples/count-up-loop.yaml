@@ -1,0 +1,15 @@
+name: Count Up Loop Example
+description: Example of loop counting up
+version: "1.0"
+
+variables:
+  counter: 0
+
+steps:
+  - type: loop
+    name: Count up
+    condition: "${counter < 10}"
+    steps:
+      - type: command
+        command: expr ${counter} + 1
+        saveResultAs: counter

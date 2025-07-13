@@ -249,23 +249,12 @@ variables:
 
 steps:
   - type: loop
-    name: Count to 5
-    condition: "${variables.counter < 5}"
-    maxIterations: 10
+    name: Repeat 10 times
+    condition: "${counter < 10}"
     steps:
       - type: command
-        command: echo "Count: ${variables.counter}"
-
-  # Loop until "finish" file or folder exists
-  - type: loop
-    name: Process until finish marker
-    condition: "${!require('fs').existsSync('./finish')}"
-    maxIterations: 100
-    steps:
-      - type: command
-        command: echo "Processing... (create 'finish' file or folder to stop)"
-      - type: command
-        command: sleep 2
+        command: expr ${counter} + 1
+        saveResultAs: counter
 ```
 
 ### Variable System
