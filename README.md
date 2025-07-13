@@ -1,28 +1,16 @@
-# @hyshu/ccrunner
+# ccrunner
 
 A tool that automatically executes a series of tasks defined in YAML files. It can execute AI prompts using Claude Code, run Bash commands, and perform loop operations.
 
 ## Setup
 
-### Install
-
-#### Option A: Use with npx (No Installation Required)
-
-Run ccrunner directly without installing:
-
-```bash
-npx @hyshu/ccrunner <yaml-file>
-```
-
-Without arguments, runner.yaml is read.
-
-#### Option B: Global Installation from npm
+### Global Install
 
 ```bash
 npm install -g @hyshu/ccrunner
 ```
 
-#### Option C: Local Development Installation
+### Local Development Installation
 
 ```bash
 git clone https://github.com/hyshu/ccrunner.git
@@ -91,12 +79,12 @@ npm run dev examples/simple.yaml
 Example:
 ```yaml
 name: My Task
-description: A sample task
-version: "1.0"
-variables:
-  outputDir: "./output"
+
 steps:
-  # Steps go here
+  - type: command
+    command: echo "Hello"
+  - type: prompt
+    prompt: Hello
 ```
 
 YOLO mode example:

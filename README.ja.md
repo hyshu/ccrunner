@@ -1,28 +1,16 @@
-# @hyshu/ccrunner
+# ccrunner
 
 YAMLファイルで定義された一連のタスクを自動実行するツールです。Claude Codeを使用してAIプロンプトを実行したり、Bashコマンドを実行したり、ループ処理を行ったりすることができます。
 
 ## セットアップ
 
-### インストール
-
-#### オプションA: npxで使用（インストール不要）
-
-インストールせずに直接実行：
-
-```bash
-npx @hyshu/ccrunner <yaml-file>
-```
-
-引数なしの場合は `runner.yaml` が読み込まれます。
-
-#### オプションB: npmからグローバルインストール
+### グローバルインストール
 
 ```bash
 npm install -g @hyshu/ccrunner
 ```
 
-#### オプションC: ローカル開発用インストール
+### ローカル開発用インストール
 
 ```bash
 git clone https://github.com/hyshu/ccrunner.git
@@ -91,12 +79,12 @@ npm run dev examples/simple.yaml
 例：
 ```yaml
 name: My Task
-description: サンプルタスク
-version: "1.0"
-variables:
-  outputDir: "./output"
+
 steps:
-  # ステップをここに記述
+  - type: command
+    command: echo "Hello"
+  - type: prompt
+    prompt: Hello
 ```
 
 YOLOモードの例：
