@@ -25,7 +25,7 @@ npm install -g @hyshu/ccrunner
 #### Option C: Local Development Installation
 
 ```bash
-git clone https://github.com/yourusername/ccrunner.git
+git clone https://github.com/hyshu/ccrunner.git
 cd ccrunner
 npm install
 npm link
@@ -65,11 +65,8 @@ ccrunner examples/simple.yaml
 # Simple task execution
 ccrunner examples/simple.yaml
 
-# Code generation
-ccrunner examples/generate-app.yaml
-
-# Data processing with loop
-ccrunner examples/data-process.yaml
+# Count up loop example
+ccrunner examples/count-up-loop.yaml
 ```
 
 ### Development Mode (with file watching)
@@ -454,8 +451,4 @@ Example output when rate limited:
 
 - Type checking currently shows some warnings that don't affect execution
 - Claude Code execution requires a Claude Max subscription or API key (environment variable `CLAUDE_API_KEY`)
-  - Note: Claude Max subscription costs are not actually charged
-
-## License
-
-ISC
+  - Note: When Claude Max, the Cost shown is not actually charged

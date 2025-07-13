@@ -25,7 +25,7 @@ npm install -g @hyshu/ccrunner
 #### オプションC: ローカル開発用インストール
 
 ```bash
-git clone https://github.com/yourusername/ccrunner.git
+git clone https://github.com/hyshu/ccrunner.git
 cd ccrunner
 npm install
 npm link
@@ -65,11 +65,8 @@ ccrunner examples/simple.yaml
 # シンプルなタスク実行
 ccrunner examples/simple.yaml
 
-# コード生成
-ccrunner examples/generate-app.yaml
-
-# ループを使ったデータ処理
-ccrunner examples/data-process.yaml
+# ループ処理によるカウント
+ccrunner examples/count-up-loop.yaml
 ```
 
 ### 開発モード（ファイル監視付き）
@@ -443,8 +440,4 @@ Claude AIの使用制限に達した場合、エージェントランナーは�
 
 - 現在、型チェックで一部の警告が表示されますが、実行には影響しません
 - Claude Codeの実行にはClaude Maxのサブスクリプションまたは APIキー（環境変数 `CLAUDE_API_KEY`）が必要です
-  - 注：Claude Max 契約時に表示されるCostは実際には請求されません
-
-## ライセンス
-
-ISC
+  - 注：Claude Max の場合、表示されるCostは実際には請求されません
