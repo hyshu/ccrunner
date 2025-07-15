@@ -134,7 +134,7 @@ steps:
 | `maxTurns` | number | 任意 | 最大会話ターン数（1以上である必要があります） |
 | `tools` | string[] | 任意 | Claudeが使用できるツール名の配列。未定義の場合は全てのツールが利用可能 |
 | `saveResultAs` | string | 任意 | 結果を保存する変数名 |
-| `continuedFrom` | string | 任意 | 以前のプロンプトから継続：プロンプト名、"before"（直前のプロンプト）、またはセッションIDを指定 |
+| `continueFrom` | string | 任意 | 以前のプロンプトから継続：プロンプト名、"before"（直前のプロンプト）、またはセッションIDを指定 |
 
 #### 利用可能なツール：
 - `Task` - 複雑な操作のためのサブエージェントを起動
@@ -177,7 +177,7 @@ steps:
 - type: prompt
   name: 開発の継続
   prompt: 前のタスクを続けて作業してください
-  continuedFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
+  continueFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
   maxTurns: 5
 
 # 名前付きプロンプトから継続
@@ -188,7 +188,7 @@ steps:
 - type: prompt
   name: テスト追加
   prompt: プロジェクトにユニットテストを追加してください
-  continuedFrom: "プロジェクトセットアップ"  # "プロジェクトセットアップ"プロンプトを参照
+  continueFrom: "プロジェクトセットアップ"  # "プロジェクトセットアップ"プロンプトを参照
 
 # 直前のプロンプトから継続
 - type: prompt
@@ -198,7 +198,7 @@ steps:
 - type: prompt
   name: 作業継続
   prompt: コンポーネントにスタイリングを追加してください
-  continuedFrom: "before"  # 直前のプロンプトから継続
+  continueFrom: "before"  # 直前のプロンプトから継続
 ```
 
 ### コマンドステップ

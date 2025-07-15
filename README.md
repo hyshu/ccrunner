@@ -134,7 +134,7 @@ Execute Claude Code AI prompts with optional tool restrictions.
 | `maxTurns` | number | No | Maximum conversation turns (must be >= 1) |
 | `tools` | string[] | No | Array of tool names Claude can use. If undefined, all tools are available |
 | `saveResultAs` | string | No | Variable name to save the result |
-| `continuedFrom` | string | No | Continue from a previous prompt: use a prompt name, "before" for the previous prompt, or a session ID |
+| `continueFrom` | string | No | Continue from a previous prompt: use a prompt name, "before" for the previous prompt, or a session ID |
 
 #### Available Tools:
 - `Task` - Launch sub-agents for complex operations
@@ -177,7 +177,7 @@ Example:
 - type: prompt
   name: Continue Development
   prompt: Continue working on the previous task
-  continuedFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
+  continueFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
   maxTurns: 5
 
 # Continue from a named prompt
@@ -188,7 +188,7 @@ Example:
 - type: prompt
   name: Add Tests
   prompt: Add unit tests to the project
-  continuedFrom: "Setup Project"  # References the "Setup Project" prompt
+  continueFrom: "Setup Project"  # References the "Setup Project" prompt
 
 # Continue from the immediately previous prompt
 - type: prompt
@@ -198,7 +198,7 @@ Example:
 - type: prompt
   name: Continue Work
   prompt: Add styling to the component
-  continuedFrom: "before"  # Continues from the previous prompt
+  continueFrom: "before"  # Continues from the previous prompt
 ```
 
 ### Command Steps

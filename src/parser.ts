@@ -68,8 +68,8 @@ export class YAMLParser {
       this.validateNumber(step.maxTurns, path, 'maxTurns', 1, 'positive number');
     }
 
-    if (step.continuedFrom !== undefined) {
-      this.validateRequiredField(step.continuedFrom, path, 'continuedFrom', 'string');
+    if (step.continueFrom !== undefined) {
+      this.validateRequiredField(step.continueFrom, path, 'continueFrom', 'string');
     }
   }
 

@@ -123,20 +123,18 @@ export class Executor {
     const prompt = this.substituteVariables(step.prompt);
     console.log(`🤖 Executing Claude Code prompt...`);
 
-    // Resolve continuedFrom
+    // Resolve continueFrom
     let resolvedSessionId: string | undefined;
-    if (step.continuedFrom) {
-      if (step.continuedFrom === 'before') {
-        resolvedSessionId = this.lastPromptSessionId || undefined;
-        if (!resolvedSessionId) {
-          console.warn('⚠️ No previous prompt session found for continuedFrom: "before"');
-        }
+    let isContinue = false;
+    if (step.continueFrom) {
+      if (step.continueFrom === 'before') {
+        isContinue = true;
       } else {
         // Try to find by name
-        resolvedSessionId = this.promptSessions.get(step.continuedFrom);
+        resolvedSessionId = this.promptSessions.get(step.continueFrom);
         if (!resolvedSessionId) {
           // If not found by name, assume it's a direct session ID
-          resolvedSessionId = step.continuedFrom;
+          resolvedSessionId = step.continueFrom;
         }
       }
     }
@@ -154,7 +152,8 @@ export class Executor {
             model: step.model,
             maxTurns: step.maxTurns,
             allowedTools: step.tools === undefined ? (this.yolo ? ["Task", "Bash", "Glob", "Grep", "LS", "exit_plan_mode", "Read", "Edit", "MultiEdit", "Write", "NotebookRead", "NotebookEdit", "WebFetch", "TodoRead", "TodoWrite", "WebSearch"] : step.tools) : step.tools,
-            continue: !!resolvedSessionId,
+            resume: isContinue ? resolvedSessionId : undefined,
+            continue: isContinue ? true : undefined
           }
         })) {
           formatSDKMessage(message);
