@@ -95,7 +95,7 @@ yolo: true  # Allows all tools for prompts without defined tools
 steps:
   - type: prompt
     prompt: Read and write files and do whatever is necessary
-    # tools is undefined but all tools are available due to yolo: true
+    # tools is omitted but all tools are available due to yolo: true
     
   - type: prompt
     prompt: Only read files, don't write anything
@@ -153,7 +153,7 @@ Execute Claude Code AI prompts with optional tool restrictions.
 | `prompt` | string | **Yes** | The prompt text to send to Claude |
 | `model` | string | No | Model to use (e.g., "claude-opus-4-20250514") |
 | `maxTurns` | number | No | Maximum conversation turns (must be >= 1) |
-| `tools` | string[] | No | Array of tool names Claude can use. If undefined, all tools are available |
+| `tools` | string[] | No | Array of tool names Claude can use. If omitted, no tools are available (unless yolo mode is enabled) |
 | `saveResultAs` | string | No | Variable name to save the result |
 | `continueFrom` | string | No | Continue from a previous prompt: use a prompt name, "before" for the previous prompt, or a session ID |
 | `addDir` | string[] | No | Array of directory paths to add to Claude's accessible directories (combines with global addDir if present) |
@@ -186,22 +186,24 @@ Example:
   maxTurns: 5
   tools: ["Write", "Edit", "Read"]
   saveResultAs: componentCode
-
-# Allow all tools (omit tools parameter)
+```
+```yaml
+# No tools allowed (omit tools parameter)
 - type: prompt
-  name: Create Full Stack App
-  prompt: Create a full stack application
+  name: Answer Question
+  prompt: Explain the concept of recursion
   model: claude-opus-4-20250514
-  maxTurns: 10
-  saveResultAs: appCode
-
+  saveResultAs: explanation
+```
+```yaml
 # Continue from a previous session by session ID
 - type: prompt
   name: Continue Development
   prompt: Continue working on the previous task
   continueFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
   maxTurns: 5
-
+```
+```yaml
 # Continue from a named prompt
 - type: prompt
   name: Setup Project
@@ -211,7 +213,8 @@ Example:
   name: Add Tests
   prompt: Add unit tests to the project
   continueFrom: "Setup Project"  # References the "Setup Project" prompt
-
+```
+```yaml
 # Continue from the immediately previous prompt
 - type: prompt
   name: Initial Work
@@ -221,7 +224,8 @@ Example:
   name: Continue Work
   prompt: Add styling to the component
   continueFrom: "before"  # Continues from the previous prompt
-
+```
+```yaml
 # Grant access to additional directories
 - type: prompt
   name: Multi-Project Analysis
@@ -471,7 +475,7 @@ npm run typecheck
 1. **Use descriptive names**: Give steps meaningful names for better debugging
 2. **Save intermediate results**: Use `saveResultAs` to track progress
 3. **Handle errors gracefully**: Use `continueOnError` when appropriate
-4. **Limit tool access**: Only provide tools that are needed for the task
+4. **Specify tools explicitly**: Always provide the `tools` array unless using yolo mode
 5. **Use conditions**: Skip unnecessary steps with conditional execution
 6. **Set appropriate timeouts**: Prevent hanging on long-running commands
 7. **Structure variables**: Use nested objects for related configuration

@@ -95,7 +95,7 @@ yolo: true  # toolsが未定義のプロンプトで全ツールを許可
 steps:
   - type: prompt
     prompt: ファイルを読み書きして必要な作業を全て行ってください
-    # toolsが未定義だが、yolo: trueにより全ツールが使用可能
+    # toolsを省略したが、yolo: trueにより全ツールが使用可能
     
   - type: prompt
     prompt: ファイルの読み取りのみ行い、書き込みは行わないでください
@@ -153,7 +153,7 @@ steps:
 | `prompt` | string | **必須** | Claudeに送信するプロンプトテキスト |
 | `model` | string | 任意 | 使用するモデル（例: "claude-opus-4-20250514"） |
 | `maxTurns` | number | 任意 | 最大会話ターン数（1以上である必要があります） |
-| `tools` | string[] | 任意 | Claudeが使用できるツール名の配列。未定義の場合は全てのツールが利用可能 |
+| `tools` | string[] | 任意 | Claudeが使用できるツール名の配列。省略した場合はツールが使用不可（yoloモードが有効な場合を除く） |
 | `saveResultAs` | string | 任意 | 結果を保存する変数名 |
 | `continueFrom` | string | 任意 | 以前のプロンプトから継続：プロンプト名、"before"（直前のプロンプト）、またはセッションIDを指定 |
 | `addDir` | string[] | 任意 | Claudeがアクセス可能な追加ディレクトリパスの配列（ルート設定のaddDirと併用可能） |
@@ -186,22 +186,24 @@ steps:
   maxTurns: 5
   tools: ["Write", "Edit", "Read"]
   saveResultAs: componentCode
-
-# 全てのツールを許可（toolsパラメータを省略）
+```
+```yaml
+# ツールを使用しない（toolsパラメータを省略）
 - type: prompt
-  name: フルスタックアプリ作成
-  prompt: フルスタックアプリケーションを作成してください
+  name: 質問への回答
+  prompt: 再帰の概念を説明してください
   model: claude-opus-4-20250514
-  maxTurns: 10
-  saveResultAs: appCode
-
+  saveResultAs: explanation
+```
+```yaml
 # セッションIDで以前のセッションから継続
 - type: prompt
   name: 開発の継続
   prompt: 前のタスクを続けて作業してください
   continueFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
   maxTurns: 5
-
+```
+```yaml
 # 名前付きプロンプトから継続
 - type: prompt
   name: プロジェクトセットアップ
@@ -211,7 +213,8 @@ steps:
   name: テスト追加
   prompt: プロジェクトにユニットテストを追加してください
   continueFrom: "プロジェクトセットアップ"  # "プロジェクトセットアップ"プロンプトを参照
-
+```
+```yaml
 # 直前のプロンプトから継続
 - type: prompt
   name: 初期作業
@@ -221,7 +224,8 @@ steps:
   name: 作業継続
   prompt: コンポーネントにスタイリングを追加してください
   continueFrom: "before"  # 直前のプロンプトから継続
-
+```
+```yaml
 # 追加ディレクトリへのアクセスを許可
 - type: prompt
   name: マルチプロジェクト分析
