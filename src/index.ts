@@ -6,7 +6,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 async function main() {
-  console.log('🤖 ccrunner v0.0.2');
+  console.log('🤖 ccrunner v0.0.3');
   console.log('========================\n');
 
   // Get YAML file path from command line arguments
