@@ -1,6 +1,6 @@
 # ccrunner
 
-A tool that automatically executes a series of tasks defined in YAML files. It can execute AI prompts using Claude Code, run Bash commands, and perform loop operations.
+A tool that automatically executes a series of tasks defined in YAML files. It can execute AI prompts using Claude Code, run Bash commands, and perform loop operations. When the usage limit is reached, automatically waits until it is released.
 
 ## Setup
 
@@ -442,20 +442,6 @@ steps:
     condition: "${backendResult.success}"
 ```
 
-## Examples
-
-### 1. Simple Example (examples/simple.yaml)
-
-Basic example of prompt and command execution.
-
-### 2. Loop Processing Example (examples/loop-example.yaml)
-
-Example of processing multiple files and using loop functionality.
-
-### 3. Command Test Example (examples/command-test.yaml)
-
-Example demonstrating various command execution features.
-
 ## Development
 
 ### TypeScript Build
@@ -469,17 +455,6 @@ npm run build
 ```bash
 npm run typecheck
 ```
-
-## Best Practices
-
-1. **Use descriptive names**: Give steps meaningful names for better debugging
-2. **Save intermediate results**: Use `saveResultAs` to track progress
-3. **Handle errors gracefully**: Use `continueOnError` when appropriate
-4. **Specify tools explicitly**: Always provide the `tools` array unless using yolo mode
-5. **Use conditions**: Skip unnecessary steps with conditional execution
-6. **Set appropriate timeouts**: Prevent hanging on long-running commands
-7. **Structure variables**: Use nested objects for related configuration
-8. **Validate inputs**: Use conditions to check prerequisites before steps
 
 ## Rate Limit Handling
 

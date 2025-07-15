@@ -1,6 +1,6 @@
 # ccrunner
 
-YAMLファイルで定義された一連のタスクを自動実行するツールです。Claude Codeを使用してAIプロンプトを実行したり、Bashコマンドを実行したり、ループ処理を行ったりすることができます。
+YAMLファイルで定義された一連のタスクを自動実行するツールです。Claude Codeを使用してAIプロンプトを実行したり、Bashコマンドを実行したり、ループ処理を行ったりすることができます。レート制限に達した時は解除まで自動で待機します。
 
 ## セットアップ
 
@@ -441,20 +441,6 @@ steps:
     tools: ["Write", "Read"]
     condition: "${backendResult.success}"
 ```
-
-## 例
-
-### 1. シンプルな例（examples/simple.yaml）
-
-プロンプトとコマンド実行の基本的な例です。
-
-### 2. ループ処理の例（examples/loop-example.yaml）
-
-複数ファイルの処理とループ機能の使用例です。
-
-### 3. コマンドテストの例（examples/command-test.yaml）
-
-様々なコマンド実行機能を示す例です。
 
 ## 開発
 
