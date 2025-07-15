@@ -21,6 +21,7 @@ export class Executor {
   private yolo: boolean = false;
   private promptSessions: Map<string, string> = new Map();
   private lastPromptSessionId: string | null = null;
+  private globalAddDir: string[] = [];
 
   constructor() {
     this.context = {
@@ -42,6 +43,12 @@ export class Executor {
     this.yolo = config.yolo || false;
     if (this.yolo) {
       console.log(`🚨 YOLO mode enabled: All tools are allowed by default`);
+    }
+
+    // Set global addDir
+    this.globalAddDir = config.addDir || [];
+    if (this.globalAddDir.length > 0) {
+      console.log(`📁 Global additional directories: ${this.globalAddDir.join(', ')}`);
     }
 
     // Initialize variables
@@ -144,6 +151,16 @@ export class Executor {
     const maxRetries = 3;
     let sessionId: string | null = null;
 
+    // Prepare executableArgs from addDir (merge global and step-specific)
+    let executableArgs: string[] | undefined;
+    const combinedAddDir = [...this.globalAddDir, ...(step.addDir || [])];
+    if (combinedAddDir.length > 0) {
+      executableArgs = [];
+      for (const dir of combinedAddDir) {
+        executableArgs.push('--add-dir', dir);
+      }
+    }
+
     while (retryCount < maxRetries) {
       try {
         for await (const message of query({
@@ -153,7 +170,8 @@ export class Executor {
             maxTurns: step.maxTurns,
             allowedTools: step.tools === undefined ? (this.yolo ? ["Task", "Bash", "Glob", "Grep", "LS", "exit_plan_mode", "Read", "Edit", "MultiEdit", "Write", "NotebookRead", "NotebookEdit", "WebFetch", "TodoRead", "TodoWrite", "WebSearch"] : step.tools) : step.tools,
             resume: isContinue ? resolvedSessionId : undefined,
-            continue: isContinue ? true : undefined
+            continue: isContinue ? true : undefined,
+            executableArgs
           }
         })) {
           formatSDKMessage(message);

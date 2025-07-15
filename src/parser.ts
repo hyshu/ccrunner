@@ -28,6 +28,10 @@ export class YAMLParser {
     this.validateRequiredField(config.name, '', 'name', 'string');
     this.validateArray(config.steps, '', 'steps', false);
 
+    if (config.addDir !== undefined) {
+      this.validateArray(config.addDir, '', 'addDir', true);
+    }
+
     config.steps.forEach((step: any, index: number) => {
       this.validateStep(step, `steps[${index}]`);
     });
@@ -70,6 +74,10 @@ export class YAMLParser {
 
     if (step.continueFrom !== undefined) {
       this.validateRequiredField(step.continueFrom, path, 'continueFrom', 'string');
+    }
+
+    if (step.addDir !== undefined) {
+      this.validateArray(step.addDir, path, 'addDir', true);
     }
   }
 

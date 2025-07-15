@@ -75,6 +75,7 @@ npm run dev examples/simple.yaml
 | `variables` | object | 任意 | キーと値のペアによるグローバル変数 |
 | `steps` | array | **必須** | 実行するステップの配列 |
 | `yolo` | boolean | 任意 | trueの場合、toolsが定義されていないプロンプトで全てのツールを許可（デフォルト: false） |
+| `addDir` | string[] | 任意 | 全てのプロンプトでClaudeがアクセス可能なディレクトリパスの配列 |
 
 例：
 ```yaml
@@ -99,6 +100,26 @@ steps:
   - type: prompt
     prompt: ファイルの読み取りのみ行い、書き込みは行わないでください
     tools: ["Read", "LS"]  # yolo: trueでも、toolsを明示的に指定した場合は制限される
+```
+
+グローバルaddDirの例：
+```yaml
+name: マルチプロジェクト分析
+description: 複数のプロジェクトにまたがるコード分析
+addDir:  # これらのディレクトリは全てのプロンプトでアクセス可能
+  - "/Users/me/Projects/project1"
+  - "/Users/me/Projects/project2"
+  
+steps:
+  - type: prompt
+    prompt: project1のアーキテクチャを分析してください
+    # project1とproject2の両方のディレクトリにアクセス可能
+    
+  - type: prompt
+    prompt: プロジェクト間のテスト手法を比較してください
+    addDir:  # このプロンプト専用の追加ディレクトリ
+      - "/Users/me/Projects/test-utils"
+    # project1、project2、そしてtest-utilsディレクトリにアクセス可能
 ```
 
 ### ステップタイプ
@@ -135,6 +156,7 @@ steps:
 | `tools` | string[] | 任意 | Claudeが使用できるツール名の配列。未定義の場合は全てのツールが利用可能 |
 | `saveResultAs` | string | 任意 | 結果を保存する変数名 |
 | `continueFrom` | string | 任意 | 以前のプロンプトから継続：プロンプト名、"before"（直前のプロンプト）、またはセッションIDを指定 |
+| `addDir` | string[] | 任意 | Claudeがアクセス可能なディレクトリパスの配列（--add-dirフラグとして渡されます） |
 
 #### 利用可能なツール：
 - `Task` - 複雑な操作のためのサブエージェントを起動
@@ -199,6 +221,15 @@ steps:
   name: 作業継続
   prompt: コンポーネントにスタイリングを追加してください
   continueFrom: "before"  # 直前のプロンプトから継続
+
+# 追加ディレクトリへのアクセスを許可
+- type: prompt
+  name: マルチプロジェクト分析
+  prompt: 複数のプロジェクトにまたがるコードを分析してください
+  addDir: 
+    - "/Users/me/Projects/project1"
+    - "/Users/me/Projects/project2"
+    - "/opt/shared/libraries"
 ```
 
 ### コマンドステップ

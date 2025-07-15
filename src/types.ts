@@ -7,6 +7,7 @@ export interface YAMLAgentConfig {
   variables?: Record<string, any>;
   steps: Step[];
   yolo?: boolean;
+  addDir?: string[];
 }
 
 export type Step = PromptStep | CommandStep | LoopStep;
@@ -26,6 +27,7 @@ export interface PromptStep extends BaseStep {
   tools?: string[];
   saveResultAs?: string;
   continueFrom?: string;
+  addDir?: string[];
 }
 
 export interface CommandStep extends BaseStep {
