@@ -1,6 +1,6 @@
 {
   "name": "@hyshu/ccrunner",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An agent runner that executes prompts and commands defined in YAML files.",
   "type": "module",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/ccrunner.git"
+    "url": "git+https://github.com/hyshu/ccrunner.git"
   },
   "keywords": [
     "claude",
@@ -34,9 +34,9 @@
     "automation",
     "cli"
   ],
-  "homepage": "https://github.com/yourusername/ccrunner#readme",
+  "homepage": "https://github.com/hyshu/ccrunner#readme",
   "bugs": {
-    "url": "https://github.com/yourusername/ccrunner/issues"
+    "url": "https://github.com/hyshu/ccrunner/issues"
   },
   "engines": {
     "node": ">=18.0.0"
