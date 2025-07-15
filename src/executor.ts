@@ -54,7 +54,7 @@ export class Executor {
       const step = config.steps[i];
       const stepId = this.generateStepId(step, i);
       const result = await this.executeStep(step, stepId);
-      if (!result.success && !step.continueOnError) {
+      if (!result.success && step.continueOnError === false) {
         console.error(`\n❌ Step ${stepId} failed. Stopping execution.`);
         break;
       }
@@ -382,7 +382,7 @@ export class Executor {
       const substep = step.steps[i];
       const substepId = `${parentStepId}-substep-${substep.type}-${i + 1}`;
       const result = await this.executeStep(substep, substepId);
-      if (!result.success && !substep.continueOnError) {
+      if (!result.success && substep.continueOnError === false) {
         console.error(`❌ Loop substep ${substepId} failed. Stopping loop.`);
         return {
           stepId: parentStepId,

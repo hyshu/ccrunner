@@ -118,7 +118,7 @@ steps:
 | `type` | string | **必須** | ステップタイプ: `prompt`、`command`、または `loop` |
 | `name` | string | 任意 | ステップの人間が読める名前 |
 | `description` | string | 任意 | ステップの動作説明 |
-| `continueOnError` | boolean | 任意 | ステップが失敗しても実行を継続（デフォルト: false） |
+| `continueOnError` | boolean | 任意 | ステップが失敗しても実行を継続（デフォルト: true） |
 | `condition` | string | 任意 | JavaScript式；trueの場合のみステップを実行 |
 
 ### プロンプトステップ

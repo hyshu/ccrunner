@@ -118,7 +118,7 @@ All step types support these options:
 | `type` | string | **Yes** | The step type: `prompt`, `command`, or `loop` |
 | `name` | string | No | Human-readable name for the step |
 | `description` | string | No | Description of what the step does |
-| `continueOnError` | boolean | No | Continue execution if step fails (default: false) |
+| `continueOnError` | boolean | No | Continue execution if step fails (default: true) |
 | `condition` | string | No | JavaScript expression; step runs only if true |
 
 ### Prompt Steps
