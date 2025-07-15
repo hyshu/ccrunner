@@ -134,6 +134,7 @@ steps:
 | `maxTurns` | number | 任意 | 最大会話ターン数（1以上である必要があります） |
 | `tools` | string[] | 任意 | Claudeが使用できるツール名の配列。未定義の場合は全てのツールが利用可能 |
 | `saveResultAs` | string | 任意 | 結果を保存する変数名 |
+| `continuedFrom` | string | 任意 | 以前のプロンプトから継続：プロンプト名、"before"（直前のプロンプト）、またはセッションIDを指定 |
 
 #### 利用可能なツール：
 - `Task` - 複雑な操作のためのサブエージェントを起動
@@ -171,6 +172,33 @@ steps:
   model: claude-opus-4-20250514
   maxTurns: 10
   saveResultAs: appCode
+
+# セッションIDで以前のセッションから継続
+- type: prompt
+  name: 開発の継続
+  prompt: 前のタスクを続けて作業してください
+  continuedFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
+  maxTurns: 5
+
+# 名前付きプロンプトから継続
+- type: prompt
+  name: プロジェクトセットアップ
+  prompt: TypeScriptを使用した新しいNode.jsプロジェクトを作成してください
+
+- type: prompt
+  name: テスト追加
+  prompt: プロジェクトにユニットテストを追加してください
+  continuedFrom: "プロジェクトセットアップ"  # "プロジェクトセットアップ"プロンプトを参照
+
+# 直前のプロンプトから継続
+- type: prompt
+  name: 初期作業
+  prompt: Reactコンポーネントを作成してください
+
+- type: prompt
+  name: 作業継続
+  prompt: コンポーネントにスタイリングを追加してください
+  continuedFrom: "before"  # 直前のプロンプトから継続
 ```
 
 ### コマンドステップ

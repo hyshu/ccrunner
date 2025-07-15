@@ -67,6 +67,10 @@ export class YAMLParser {
     if (step.maxTurns !== undefined) {
       this.validateNumber(step.maxTurns, path, 'maxTurns', 1, 'positive number');
     }
+    
+    if (step.continuedFrom !== undefined) {
+      this.validateRequiredField(step.continuedFrom, path, 'continuedFrom', 'string');
+    }
   }
 
   private validateCommandStep(step: any, path: string): void {

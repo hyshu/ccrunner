@@ -25,6 +25,7 @@ export interface PromptStep extends BaseStep {
   maxTurns?: number;
   tools?: string[];
   saveResultAs?: string;
+  continuedFrom?: string;
 }
 
 export interface CommandStep extends BaseStep {

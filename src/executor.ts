@@ -19,6 +19,8 @@ const execAsync = promisify(exec);
 export class Executor {
   private context: ExecutionContext;
   private yolo: boolean = false;
+  private promptSessions: Map<string, string> = new Map();
+  private lastPromptSessionId: string | null = null;
 
   constructor() {
     this.context = {
@@ -121,9 +123,28 @@ export class Executor {
     const prompt = this.substituteVariables(step.prompt);
     console.log(`🤖 Executing Claude Code prompt...`);
 
+    // Resolve continuedFrom
+    let resolvedSessionId: string | undefined;
+    if (step.continuedFrom) {
+      if (step.continuedFrom === 'before') {
+        resolvedSessionId = this.lastPromptSessionId || undefined;
+        if (!resolvedSessionId) {
+          console.warn('⚠️ No previous prompt session found for continuedFrom: "before"');
+        }
+      } else {
+        // Try to find by name
+        resolvedSessionId = this.promptSessions.get(step.continuedFrom);
+        if (!resolvedSessionId) {
+          // If not found by name, assume it's a direct session ID
+          resolvedSessionId = step.continuedFrom;
+        }
+      }
+    }
+
     const messages: SDKMessage[] = [];
     let retryCount = 0;
     const maxRetries = 3;
+    let sessionId: string | null = null;
 
     while (retryCount < maxRetries) {
       try {
@@ -133,16 +154,30 @@ export class Executor {
             model: step.model,
             maxTurns: step.maxTurns,
             allowedTools: step.tools === undefined ? (this.yolo ? ["Task", "Bash", "Glob", "Grep", "LS", "exit_plan_mode", "Read", "Edit", "MultiEdit", "Write", "NotebookRead", "NotebookEdit", "WebFetch", "TodoRead", "TodoWrite", "WebSearch"] : step.tools) : step.tools,
+            continue: !!resolvedSessionId,
           }
         })) {
           formatSDKMessage(message);
           messages.push(message);
+          
+          // Capture session ID from system init message
+          if (message.type === 'system' && message.subtype === 'init' && 'session_id' in message) {
+            sessionId = message.session_id;
+          }
         }
 
         // Extract result from messages
         const resultMessage = messages.find(m => m.type === 'result');
         const output = resultMessage && 'result' in resultMessage ? resultMessage.result : '';
         const cost = resultMessage && 'total_cost_usd' in resultMessage ? resultMessage.total_cost_usd : 0;
+
+        // Store session ID for future reference
+        if (sessionId) {
+          this.lastPromptSessionId = sessionId;
+          if (step.name) {
+            this.promptSessions.set(step.name, sessionId);
+          }
+        }
 
         return {
           stepId: stepId,
