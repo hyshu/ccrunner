@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
-import { YAMLParser } from './parser';
-import { Executor } from './executor';
-import { formatError } from './utils/common';
+import { YAMLParser } from './parser.js';
+import { Executor } from './executor.js';
+import { formatError } from './utils/common.js';
 import * as path from 'path';
 import * as fs from 'fs';
 

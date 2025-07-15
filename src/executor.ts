@@ -2,8 +2,8 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import { query } from '@anthropic-ai/claude-code';
 import type { SDKMessage } from '@anthropic-ai/claude-code';
-import { formatSDKMessage } from './utils/format-sdk-message';
-import { formatError } from './utils/common';
+import { formatSDKMessage } from './utils/format-sdk-message.js';
+import { formatError } from './utils/common.js';
 import {
   YAMLAgentConfig,
   Step,
@@ -12,7 +12,7 @@ import {
   LoopStep,
   ExecutionContext,
   StepResult
-} from './types';
+} from './types.js';
 
 const execAsync = promisify(exec);
 
@@ -159,7 +159,7 @@ export class Executor {
         })) {
           formatSDKMessage(message);
           messages.push(message);
-          
+
           // Capture session ID from system init message
           if (message.type === 'system' && message.subtype === 'init' && 'session_id' in message) {
             sessionId = message.session_id;

@@ -34,18 +34,18 @@ export function truncateText(text: string, maxLength: number): string {
 export function formatMultilineText(text: string, indent: string, maxLines: number = 5): string[] {
   const lines = text.split('\n');
   const result: string[] = [];
-  
+
   if (lines.length <= maxLines) {
     return lines.map(line => `${indent}${line}`);
   }
-  
+
   // Show first few lines
   for (let i = 0; i < maxLines - 1; i++) {
     result.push(`${indent}${lines[i]}`);
   }
-  
+
   // Add ellipsis message
   result.push(`${indent}... (${lines.length - (maxLines - 1)} more lines)`);
-  
+
   return result;
 }
