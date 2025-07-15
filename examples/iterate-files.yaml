@@ -7,7 +7,6 @@ variables:
     - "src/index.ts"
     - "src/types.ts"
     - "src/parser.ts"
-  outputFormat: "markdown"
 
 steps:
   - type: loop
@@ -20,7 +19,6 @@ steps:
       - type: command
         name: Check file existence
         command: 'test -f ${currentFile} && echo "Exists: ${currentFile}" || echo "Not found: ${currentFile}"'
-        continueOnError: true
         
       - type: prompt
         name: Code analysis
@@ -31,7 +29,7 @@ steps:
           2. Exported functions/classes
           3. Dependencies
           
-          Please output the results in ${outputFormat} format.
+          Please output the results in markdown format.
         tools: ["Read"]
         saveResultAs: "analysis_${fileIndex}"
         
