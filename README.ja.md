@@ -156,7 +156,7 @@ steps:
 | `tools` | string[] | 任意 | Claudeが使用できるツール名の配列。未定義の場合は全てのツールが利用可能 |
 | `saveResultAs` | string | 任意 | 結果を保存する変数名 |
 | `continueFrom` | string | 任意 | 以前のプロンプトから継続：プロンプト名、"before"（直前のプロンプト）、またはセッションIDを指定 |
-| `addDir` | string[] | 任意 | Claudeがアクセス可能なディレクトリパスの配列（--add-dirフラグとして渡されます） |
+| `addDir` | string[] | 任意 | Claudeがアクセス可能な追加ディレクトリパスの配列（ルート設定のaddDirと併用可能） |
 
 #### 利用可能なツール：
 - `Task` - 複雑な操作のためのサブエージェントを起動

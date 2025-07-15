@@ -156,7 +156,7 @@ Execute Claude Code AI prompts with optional tool restrictions.
 | `tools` | string[] | No | Array of tool names Claude can use. If undefined, all tools are available |
 | `saveResultAs` | string | No | Variable name to save the result |
 | `continueFrom` | string | No | Continue from a previous prompt: use a prompt name, "before" for the previous prompt, or a session ID |
-| `addDir` | string[] | No | Array of directory paths to add to Claude's accessible directories (passed as --add-dir flags) |
+| `addDir` | string[] | No | Array of directory paths to add to Claude's accessible directories (combines with global addDir if present) |
 
 #### Available Tools:
 - `Task` - Launch sub-agents for complex operations
