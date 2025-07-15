@@ -5,12 +5,27 @@ import { formatError } from './utils/common.js';
 import * as path from 'path';
 import * as fs from 'fs';
 
-async function main() {
-  console.log('🤖 ccrunner v0.0.3');
-  console.log('========================\n');
+const VERSION = '0.0.3';
 
-  // Get YAML file path from command line arguments
+async function main() {
+  // Get command line arguments
   const args = process.argv.slice(2);
+
+  // Handle --help and --version flags
+  if (args.length > 0) {
+    const firstArg = args[0];
+    if (firstArg === '--help' || firstArg === '-h') {
+      showHelp();
+      process.exit(0);
+    }
+    if (firstArg === '--version' || firstArg === '-V') {
+      console.log(`ccrunner v${VERSION}`);
+      process.exit(0);
+    }
+  }
+
+  console.log(`🤖 ccrunner v${VERSION}`);
+  console.log('========================\n');
 
   const yamlPath = args.length === 0 ? 'runner.yaml' : args[0];
   const absolutePath = path.isAbsolute(yamlPath) ? yamlPath : path.join(process.cwd(), yamlPath);
@@ -27,7 +42,8 @@ async function main() {
 
     console.log('\n🎉 All tasks completed successfully!');
   } catch (error) {
-    if (args.length === 0) {
+    if (args.length === 0 && !fs.existsSync(absolutePath)) {
+      console.error(`❌ Error: Default file 'runner.yaml' not found.\n`);
       showUsage();
     } else {
       console.error('\n❌ Fatal error:', formatError(error));
@@ -49,7 +65,38 @@ main().catch((error) => {
 });
 
 function showUsage() {
-  console.log('📋 How to use:');
-  console.log('  ccrunner # Uses runner.yaml (default)');
-  console.log('  ccrunner [YAML file]');
+  console.log('Usage: ccrunner [options] [yaml-file]');
+  console.log('');
+  console.log('Try "ccrunner --help" for more information.');
+}
+
+function showHelp() {
+  console.log(`ccrunner v${VERSION} - Claude Code YAML Agent Runner`);
+  console.log('');
+  console.log('Usage: ccrunner [options] [yaml-file]');
+  console.log('');
+  console.log('Execute prompts and commands defined in YAML files using Claude Code.');
+  console.log('');
+  console.log('Arguments:');
+  console.log('  yaml-file          Path to YAML configuration file (default: runner.yaml)');
+  console.log('');
+  console.log('Options:');
+  console.log('  -h, --help         Show this help message');
+  console.log('  -V, --version      Show version number');
+  console.log('');
+  console.log('Examples:');
+  console.log('  ccrunner                      # Uses runner.yaml in current directory');
+  console.log('  ccrunner task.yaml            # Uses specified YAML file');
+  console.log('  ccrunner /path/to/task.yaml   # Uses absolute path');
+  console.log('');
+  console.log('YAML Configuration:');
+  console.log('  The YAML file should contain:');
+  console.log('  - name: Task name (required)');
+  console.log('  - steps: Array of steps to execute (required)');
+  console.log('  - description: Task description (optional)');
+  console.log('  - variables: Global variables (optional)');
+  console.log('  - addDir: Additional directories for Claude access (optional)');
+  console.log('  - yolo: Allow all tools by default (optional)');
+  console.log('');
+  console.log('For more information, visit: https://github.com/hyshu/ccrunner');
 }

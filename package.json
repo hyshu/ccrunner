@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "ccrunner": "./bin/cli.js"
+    "ccrunner": "bin/cli.js"
   },
   "scripts": {
     "start": "tsx src/index.ts",
