@@ -329,16 +329,16 @@ steps:
 
 ### エラーハンドリング
 
-デフォルトでは、最初のエラーでランナーは停止します。`continueOnError: true`を使用して継続します：
+デフォルトでは、ステップが失敗してもランナーは実行を継続します。エラーで停止するには、`continueOnError: false`を設定します：
 
 ```yaml
 steps:
   - type: command
     command: rm 存在しないファイル
-    continueOnError: true
+    continueOnError: false  # このステップが失敗した場合、実行を停止
     
   - type: prompt
-    prompt: 残りのタスクを続行します
+    prompt: 前のステップが成功した場合のみ実行されます
 ```
 
 ## 完全な例

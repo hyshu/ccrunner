@@ -329,16 +329,16 @@ steps:
 
 ### Error Handling
 
-By default, the runner stops on the first error. Use `continueOnError: true` to continue:
+By default, the runner continues execution even if a step fails. To stop on error, set `continueOnError: false`:
 
 ```yaml
 steps:
   - type: command
     command: rm non-existent-file
-    continueOnError: true
+    continueOnError: false  # Stop execution if this step fails
     
   - type: prompt
-    prompt: Continue with the rest of the task
+    prompt: This will only run if the previous step succeeded
 ```
 
 ## Complete Example
