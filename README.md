@@ -47,16 +47,6 @@ ccrunner
 ccrunner examples/simple.yaml
 ```
 
-### Examples
-
-```bash
-# Simple task execution
-ccrunner examples/simple.yaml
-
-# Count up loop example
-ccrunner examples/count-up-loop.yaml
-```
-
 ### Development Mode (with file watching)
 
 ```bash
@@ -75,7 +65,6 @@ npm run dev examples/simple.yaml
 | `variables` | object | No | Global variables as key-value pairs |
 | `steps` | array | **Yes** | Array of steps to execute |
 | `yolo` | boolean | No | When true, allows all tools for prompts without defined tools (default: false) |
-| `addDir` | string[] | No | Array of directory paths to add to Claude's accessible directories for all prompts |
 
 Example:
 ```yaml
@@ -100,26 +89,6 @@ steps:
   - type: prompt
     prompt: Only read files, don't write anything
     tools: ["Read", "LS"]  # Even with yolo: true, tools are restricted when explicitly specified
-```
-
-Global addDir example:
-```yaml
-name: Multi-Project Analysis
-description: Analyze code across multiple projects
-addDir:  # These directories are accessible to all prompts
-  - "/Users/me/Projects/project1"
-  - "/Users/me/Projects/project2"
-  
-steps:
-  - type: prompt
-    prompt: Analyze the architecture of project1
-    # Can access both project1 and project2 directories
-    
-  - type: prompt
-    prompt: Compare the testing approach between projects
-    addDir:  # Additional directories for this specific prompt
-      - "/Users/me/Projects/test-utils"
-    # Can access project1, project2, AND test-utils directories
 ```
 
 ### Step Types
@@ -156,7 +125,6 @@ Execute Claude Code AI prompts with optional tool restrictions.
 | `tools` | string[] | No | Array of tool names Claude can use. If omitted, no tools are available (unless yolo mode is enabled) |
 | `saveResultAs` | string | No | Variable name to save the result |
 | `continueFrom` | string | No | Continue from a previous prompt: use a prompt name, "before" for the previous prompt, or a session ID |
-| `addDir` | string[] | No | Array of directory paths to add to Claude's accessible directories (combines with global addDir if present) |
 
 #### Available Tools:
 - `Task` - Launch sub-agents for complex operations
@@ -224,16 +192,6 @@ Example:
   name: Continue Work
   prompt: Add styling to the component
   continueFrom: "before"  # Continues from the previous prompt
-```
-```yaml
-# Grant access to additional directories
-- type: prompt
-  name: Multi-Project Analysis
-  prompt: Analyze code across multiple projects
-  addDir: 
-    - "/Users/me/Projects/project1"
-    - "/Users/me/Projects/project2"
-    - "/opt/shared/libraries"
 ```
 
 ### Command Steps
