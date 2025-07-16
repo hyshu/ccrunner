@@ -165,23 +165,15 @@ steps:
   saveResultAs: explanation
 ```
 ```yaml
-# セッションIDで以前のセッションから継続
-- type: prompt
-  name: 開発の継続
-  prompt: 前のタスクを続けて作業してください
-  continueFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
-  maxTurns: 5
-```
-```yaml
 # 名前付きプロンプトから継続
 - type: prompt
-  name: プロジェクトセットアップ
+  name: SetupProject
   prompt: TypeScriptを使用した新しいNode.jsプロジェクトを作成してください
 
 - type: prompt
   name: テスト追加
   prompt: プロジェクトにユニットテストを追加してください
-  continueFrom: "プロジェクトセットアップ"  # "プロジェクトセットアップ"プロンプトを参照
+  continueFrom: SetupProject
 ```
 ```yaml
 # 直前のプロンプトから継続
@@ -192,7 +184,15 @@ steps:
 - type: prompt
   name: 作業継続
   prompt: コンポーネントにスタイリングを追加してください
-  continueFrom: "before"  # 直前のプロンプトから継続
+  continueFrom: before
+```
+```yaml
+# セッションIDで以前のセッションから継続
+- type: prompt
+  name: 開発の継続
+  prompt: 前のタスクを続けて作業してください
+  continueFrom: aa4e7d0a-6011-4246-8072-a7189546c6f6
+  maxTurns: 5
 ```
 ```yaml
 # Claude Codeの作業ディレクトリを設定

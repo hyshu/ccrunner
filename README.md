@@ -165,23 +165,15 @@ Example:
   saveResultAs: explanation
 ```
 ```yaml
-# Continue from a previous session by session ID
-- type: prompt
-  name: Continue Development
-  prompt: Continue working on the previous task
-  continueFrom: "aa4e7d0a-6011-4246-8072-a7189546c6f6"
-  maxTurns: 5
-```
-```yaml
 # Continue from a named prompt
 - type: prompt
-  name: Setup Project
+  name: SetupProject
   prompt: Create a new Node.js project with TypeScript
 
 - type: prompt
   name: Add Tests
   prompt: Add unit tests to the project
-  continueFrom: "Setup Project"  # References the "Setup Project" prompt
+  continueFrom: SetupProject
 ```
 ```yaml
 # Continue from the immediately previous prompt
@@ -192,7 +184,15 @@ Example:
 - type: prompt
   name: Continue Work
   prompt: Add styling to the component
-  continueFrom: "before"  # Continues from the previous prompt
+  continueFrom: before
+```
+```yaml
+# Continue from a previous session by session ID
+- type: prompt
+  name: Continue Development
+  prompt: Continue working on the previous task
+  continueFrom: aa4e7d0a-6011-4246-8072-a7189546c6f6
+  maxTurns: 5
 ```
 ```yaml
 # Set working directory for Claude Code
