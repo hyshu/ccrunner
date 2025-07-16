@@ -28,6 +28,7 @@ export interface PromptStep extends BaseStep {
   saveResultAs?: string;
   continueFrom?: string;
   addDir?: string[];
+  workingDirectory?: string;
 }
 
 export interface CommandStep extends BaseStep {

@@ -123,6 +123,7 @@ steps:
 | `model` | string | 任意 | 使用するモデル（例: "claude-opus-4-20250514"） |
 | `maxTurns` | number | 任意 | 最大会話ターン数（1以上である必要があります） |
 | `tools` | string[] | 任意 | Claudeが使用できるツール名の配列。省略した場合はツールが使用不可（yoloモードが有効な場合を除く） |
+| `workingDirectory` | string | 任意 | Claude Code実行時の作業ディレクトリを設定 |
 | `saveResultAs` | string | 任意 | 結果を保存する変数名 |
 | `continueFrom` | string | 任意 | 以前のプロンプトから継続：プロンプト名、"before"（直前のプロンプト）、またはセッションIDを指定 |
 
@@ -192,6 +193,14 @@ steps:
   name: 作業継続
   prompt: コンポーネントにスタイリングを追加してください
   continueFrom: "before"  # 直前のプロンプトから継続
+```
+```yaml
+# Claude Codeの作業ディレクトリを設定
+- type: prompt
+  name: プロジェクト分析
+  prompt: プロジェクト構造を分析してください
+  workingDirectory: "/Users/me/Projects/my-app"
+  tools: ["Read", "LS", "Grep"]
 ```
 
 ### コマンドステップ

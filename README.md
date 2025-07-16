@@ -123,6 +123,7 @@ Execute Claude Code AI prompts with optional tool restrictions.
 | `model` | string | No | Model to use (e.g., "claude-opus-4-20250514") |
 | `maxTurns` | number | No | Maximum conversation turns (must be >= 1) |
 | `tools` | string[] | No | Array of tool names Claude can use. If omitted, no tools are available (unless yolo mode is enabled) |
+| `workingDirectory` | string | No | Set the working directory for Claude Code execution |
 | `saveResultAs` | string | No | Variable name to save the result |
 | `continueFrom` | string | No | Continue from a previous prompt: use a prompt name, "before" for the previous prompt, or a session ID |
 
@@ -192,6 +193,14 @@ Example:
   name: Continue Work
   prompt: Add styling to the component
   continueFrom: "before"  # Continues from the previous prompt
+```
+```yaml
+# Set working directory for Claude Code
+- type: prompt
+  name: Analyze project
+  prompt: Analyze the project structure
+  workingDirectory: "/Users/me/Projects/my-app"
+  tools: ["Read", "LS", "Grep"]
 ```
 
 ### Command Steps

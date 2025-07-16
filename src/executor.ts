@@ -170,7 +170,8 @@ export class Executor {
             allowedTools: step.tools === undefined ? (this.yolo ? ["Task", "Bash", "Glob", "Grep", "LS", "exit_plan_mode", "Read", "Edit", "MultiEdit", "Write", "NotebookRead", "NotebookEdit", "WebFetch", "TodoRead", "TodoWrite", "WebSearch"] : step.tools) : step.tools,
             resume: isContinue ? resolvedSessionId : undefined,
             continue: isContinue ? true : undefined,
-            executableArgs
+            executableArgs,
+            cwd: step.workingDirectory ? this.substituteVariables(step.workingDirectory) : undefined
           }
         })) {
           formatSDKMessage(message);
