@@ -1,5 +1,7 @@
 # ccrunner
 
+<a href="https://npmjs.com/package/@hyshu/ccrunner"><img src="https://img.shields.io/npm/v/@hyshu/ccrunner?color=blue" alt="npm version"></a> <a href="README.ja.md"><img src="https://img.shields.io/badge/readme-%E6%97%A5%E6%9C%AC%E8%AA%9E-red.svg"></a>
+
 A tool that automatically executes a series of tasks defined in YAML files. It can execute AI prompts using Claude Code, run Bash commands, and perform loop operations. When the usage limit is reached, automatically waits until it is released.
 
 ## Setup
