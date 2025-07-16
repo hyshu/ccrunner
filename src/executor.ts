@@ -20,7 +20,6 @@ export class Executor {
   private context: ExecutionContext;
   private yolo: boolean = false;
   private promptSessions: Map<string, string> = new Map();
-  private lastPromptSessionId: string | null = null;
   private globalAddDir: string[] = [];
 
   constructor() {
@@ -189,11 +188,8 @@ export class Executor {
         const cost = resultMessage && 'total_cost_usd' in resultMessage ? resultMessage.total_cost_usd : 0;
 
         // Store session ID for future reference
-        if (sessionId) {
-          this.lastPromptSessionId = sessionId;
-          if (step.name) {
-            this.promptSessions.set(step.name, sessionId);
-          }
+        if (sessionId && step.name) {
+          this.promptSessions.set(step.name, sessionId);
         }
 
         return {
