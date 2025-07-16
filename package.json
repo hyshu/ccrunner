@@ -1,6 +1,6 @@
 {
   "name": "@hyshu/ccrunner",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An agent runner that executes prompts and commands defined in YAML files.",
   "type": "module",
   "main": "dist/index.js",
