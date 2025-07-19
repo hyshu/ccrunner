@@ -109,8 +109,7 @@ steps:
 | `name` | string | 任意 | ステップの人間が読める名前 |
 | `description` | string | 任意 | ステップの動作説明 |
 | `continueOnError` | boolean | 任意 | ステップが失敗しても実行を継続（デフォルト: true） |
-| `condition` | string | 任意 | JavaScript式またはBash条件；trueの場合のみステップを実行 |
-| `conditionType` | 'javascript' \| 'bash' | 任意 | 条件評価のタイプ（デフォルト: 'bash'） |
+| `condition` | string | 任意 | 評価する条件；Bashの場合は`[式]`、それ以外はJavaScript |
 
 ### プロンプトステップ
 
@@ -316,28 +315,24 @@ steps:
 
 `condition`フィールドを使用してステップを条件付きで実行します：
 
-#### Bash条件（デフォルト）
+#### 条件の種類
+
+**Bash条件**（`[` と `]`で囲む）:
 ```yaml
 steps:
-  - type: command
-    condition: "-f /etc/passwd"
-    command: echo "システムにpasswdファイルが存在します"
-    
-  - type: command
-    condition: "$USER = root"
-    command: echo "rootユーザーとして実行中"
+  - type: prompt
+    condition: "[ -f config.json ]"
+    prompt: 設定ファイルを処理する
     
   - type: loop
-    condition: "$counter -lt 5"
+    condition: "[ ${counter} -lt 10 ]"
     steps:
       - type: command
         command: echo $((${counter} + 1))
         saveResultAs: counter
 ```
 
-#### JavaScript条件
-`conditionType: javascript`を指定すると、JavaScript式を使用できます：
-
+**JavaScript条件**（括弧なし）:
 ```yaml
 steps:
   - type: command
@@ -347,12 +342,10 @@ steps:
     
   - type: prompt
     condition: "${!results.configExists?.success}"
-    conditionType: javascript
     prompt: デフォルトのconfig.jsonファイルを作成してください
     
   - type: loop
     condition: "${counter < 10}"
-    conditionType: javascript
     steps:
       - type: command
         command: expr ${counter} + 1

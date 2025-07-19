@@ -78,7 +78,7 @@ export class Executor {
     console.log(`\n📍 Executing step: ${stepId}${step.name ? ` - ${step.name}` : ''}`);
 
     // Check condition if present
-    if (step.condition && !this.evaluateCondition(step.condition, step.conditionType)) {
+    if (step.condition && !(await this.evaluateCondition(step.condition))) {
       console.log(`⏩ Skipping step due to condition: ${step.condition}`);
       return {
         stepId: stepId,
@@ -354,7 +354,7 @@ export class Executor {
       }
     } else if (step.condition) {
       // Loop while condition is true
-      while (this.evaluateCondition(step.condition, step.conditionType) && iterations < maxIterations) {
+      while ((await this.evaluateCondition(step.condition)) && iterations < maxIterations) {
         this.context.currentIteration = iterations;
 
         console.log(`\n🔄 Loop iteration ${iterations + 1}`);
@@ -438,23 +438,36 @@ export class Executor {
     return undefined;
   }
 
-  private evaluateCondition(condition: string, conditionType: 'javascript' | 'bash' = 'bash'): boolean {
+  private async evaluateCondition(condition: string): Promise<boolean> {
     try {
-      const substituted = this.substituteVariables(condition);
-      
-      if (conditionType === 'bash') {
-        // Execute bash condition using if [ condition ]; then echo 1; else echo 0; fi
-        const { execSync } = require('child_process');
-        const bashCommand = `if [ ${substituted} ]; then echo 1; else echo 0; fi`;
+      const trimmed = condition.trim();
+
+      // Check if the condition is surrounded by [] for Bash
+      if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+        // For bash conditions, substitute variables differently
+        const substituted = trimmed.replace(/\$\{([^}]+)\}/g, (match, varName) => {
+          // Check if it's a simple variable reference
+          if (varName in this.context.variables) {
+            return String(this.context.variables[varName]);
+          } else if (varName.startsWith('results.') && varName.substring(8) in this.context.results) {
+            return String(this.context.results[varName.substring(8)]);
+          }
+          // For bash, return empty string for undefined variables
+          return '';
+        });
+
+        // test command returns 0 if true, 1 if false
+        const bashCommand = `${substituted}`;
         try {
-          const result = execSync(bashCommand, { encoding: 'utf8', shell: '/bin/bash' }).trim();
-          return result === '1';
-        } catch (bashError) {
-          console.warn(`⚠️ Failed to evaluate bash condition: ${condition}`);
+          await execAsync(bashCommand, { encoding: 'utf8', shell: '/bin/bash' });
+          return true;
+        } catch (error) {
+          // If error, condition is false
           return false;
         }
       } else {
-        // JavaScript evaluation (existing behavior)
+        // JavaScript evaluation
+        const substituted = this.substituteVariables(condition);
         const func = new Function(...Object.keys(this.context.variables), 'results', `return ${substituted}`);
         return Boolean(func(...Object.values(this.context.variables), this.context.results));
       }

@@ -111,8 +111,7 @@ All step types support these options:
 | `name` | string | No | Human-readable name for the step |
 | `description` | string | No | Description of what the step does |
 | `continueOnError` | boolean | No | Continue execution if step fails (default: true) |
-| `condition` | string | No | JavaScript expression or Bash condition; step runs only if true |
-| `conditionType` | 'javascript' \| 'bash' | No | Type of condition evaluation (default: 'bash') |
+| `condition` | string | No | Condition to evaluate; use `[expression]` for Bash, otherwise JavaScript |
 
 ### Prompt Steps
 
@@ -318,43 +317,36 @@ steps:
 
 Use the `condition` field to conditionally execute steps:
 
-#### Bash Conditions (default)
+#### Condition Types
+
+**Bash Conditions** (wrapped in `[` and `]`):
 ```yaml
 steps:
-  - type: command
-    condition: "-f /etc/passwd"
-    command: echo "System has passwd file"
-    
-  - type: command
-    condition: "$USER = root"
-    command: echo "Running as root"
+  - type: prompt
+    condition: "[ -f config.json ]"
+    prompt: Process the config file
     
   - type: loop
-    condition: "$counter -lt 5"
+    condition: "[ ${counter} -lt 10 ]"
     steps:
       - type: command
         command: echo $((${counter} + 1))
         saveResultAs: counter
 ```
 
-#### JavaScript Conditions
-When `conditionType: javascript` is specified, you can use JavaScript expressions:
-
+**JavaScript Conditions** (without brackets):
 ```yaml
 steps:
   - type: command
     command: test -f config.json
-    continueOnError: true
     saveResultAs: configExists
     
   - type: prompt
     condition: "${!results.configExists?.success}"
-    conditionType: javascript
     prompt: Create a default config.json file
     
   - type: loop
     condition: "${counter < 10}"
-    conditionType: javascript
     steps:
       - type: command
         command: expr ${counter} + 1
