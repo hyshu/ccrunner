@@ -109,7 +109,8 @@ steps:
 | `name` | string | 任意 | ステップの人間が読める名前 |
 | `description` | string | 任意 | ステップの動作説明 |
 | `continueOnError` | boolean | 任意 | ステップが失敗しても実行を継続（デフォルト: true） |
-| `condition` | string | 任意 | JavaScript式；trueの場合のみステップを実行 |
+| `condition` | string | 任意 | JavaScript式またはBash条件；trueの場合のみステップを実行 |
+| `conditionType` | 'javascript' \| 'bash' | 任意 | 条件評価のタイプ（デフォルト: 'bash'） |
 
 ### プロンプトステップ
 
@@ -315,6 +316,28 @@ steps:
 
 `condition`フィールドを使用してステップを条件付きで実行します：
 
+#### Bash条件（デフォルト）
+```yaml
+steps:
+  - type: command
+    condition: "-f /etc/passwd"
+    command: echo "システムにpasswdファイルが存在します"
+    
+  - type: command
+    condition: "$USER = root"
+    command: echo "rootユーザーとして実行中"
+    
+  - type: loop
+    condition: "$counter -lt 5"
+    steps:
+      - type: command
+        command: echo $((${counter} + 1))
+        saveResultAs: counter
+```
+
+#### JavaScript条件
+`conditionType: javascript`を指定すると、JavaScript式を使用できます：
+
 ```yaml
 steps:
   - type: command
@@ -324,8 +347,29 @@ steps:
     
   - type: prompt
     condition: "${!results.configExists?.success}"
+    conditionType: javascript
     prompt: デフォルトのconfig.jsonファイルを作成してください
+    
+  - type: loop
+    condition: "${counter < 10}"
+    conditionType: javascript
+    steps:
+      - type: command
+        command: expr ${counter} + 1
+        saveResultAs: counter
 ```
+
+一般的なBash条件演算子：
+- `-f file`: ファイルが存在する
+- `-d directory`: ディレクトリが存在する
+- `-s file`: ファイルが存在し、空でない
+- `-z string`: 文字列が空
+- `-n string`: 文字列が空でない
+- `"$var" = "value"`: 文字列の等価
+- `"$var" != "value"`: 文字列の不等価
+- `$var -eq value`: 数値の等価
+- `$var -lt value`: 数値の小なり
+- `$var -gt value`: 数値の大なり
 
 ### エラーハンドリング
 

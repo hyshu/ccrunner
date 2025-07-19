@@ -111,7 +111,8 @@ All step types support these options:
 | `name` | string | No | Human-readable name for the step |
 | `description` | string | No | Description of what the step does |
 | `continueOnError` | boolean | No | Continue execution if step fails (default: true) |
-| `condition` | string | No | JavaScript expression; step runs only if true |
+| `condition` | string | No | JavaScript expression or Bash condition; step runs only if true |
+| `conditionType` | 'javascript' \| 'bash' | No | Type of condition evaluation (default: 'bash') |
 
 ### Prompt Steps
 
@@ -317,6 +318,28 @@ steps:
 
 Use the `condition` field to conditionally execute steps:
 
+#### Bash Conditions (default)
+```yaml
+steps:
+  - type: command
+    condition: "-f /etc/passwd"
+    command: echo "System has passwd file"
+    
+  - type: command
+    condition: "$USER = root"
+    command: echo "Running as root"
+    
+  - type: loop
+    condition: "$counter -lt 5"
+    steps:
+      - type: command
+        command: echo $((${counter} + 1))
+        saveResultAs: counter
+```
+
+#### JavaScript Conditions
+When `conditionType: javascript` is specified, you can use JavaScript expressions:
+
 ```yaml
 steps:
   - type: command
@@ -326,8 +349,29 @@ steps:
     
   - type: prompt
     condition: "${!results.configExists?.success}"
+    conditionType: javascript
     prompt: Create a default config.json file
+    
+  - type: loop
+    condition: "${counter < 10}"
+    conditionType: javascript
+    steps:
+      - type: command
+        command: expr ${counter} + 1
+        saveResultAs: counter
 ```
+
+Common Bash condition operators:
+- `-f file`: File exists
+- `-d directory`: Directory exists
+- `-s file`: File exists and is not empty
+- `-z string`: String is empty
+- `-n string`: String is not empty
+- `"$var" = "value"`: String equality
+- `"$var" != "value"`: String inequality
+- `$var -eq value`: Numeric equality
+- `$var -lt value`: Numeric less than
+- `$var -gt value`: Numeric greater than
 
 ### Error Handling
 

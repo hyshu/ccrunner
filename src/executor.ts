@@ -78,7 +78,7 @@ export class Executor {
     console.log(`\n📍 Executing step: ${stepId}${step.name ? ` - ${step.name}` : ''}`);
 
     // Check condition if present
-    if (step.condition && !this.evaluateCondition(step.condition)) {
+    if (step.condition && !this.evaluateCondition(step.condition, step.conditionType)) {
       console.log(`⏩ Skipping step due to condition: ${step.condition}`);
       return {
         stepId: stepId,
@@ -354,7 +354,7 @@ export class Executor {
       }
     } else if (step.condition) {
       // Loop while condition is true
-      while (this.evaluateCondition(step.condition) && iterations < maxIterations) {
+      while (this.evaluateCondition(step.condition, step.conditionType) && iterations < maxIterations) {
         this.context.currentIteration = iterations;
 
         console.log(`\n🔄 Loop iteration ${iterations + 1}`);
@@ -438,11 +438,26 @@ export class Executor {
     return undefined;
   }
 
-  private evaluateCondition(condition: string): boolean {
+  private evaluateCondition(condition: string, conditionType: 'javascript' | 'bash' = 'bash'): boolean {
     try {
       const substituted = this.substituteVariables(condition);
-      const func = new Function(...Object.keys(this.context.variables), 'results', `return ${substituted}`);
-      return Boolean(func(...Object.values(this.context.variables), this.context.results));
+      
+      if (conditionType === 'bash') {
+        // Execute bash condition using if [ condition ]; then echo 1; else echo 0; fi
+        const { execSync } = require('child_process');
+        const bashCommand = `if [ ${substituted} ]; then echo 1; else echo 0; fi`;
+        try {
+          const result = execSync(bashCommand, { encoding: 'utf8', shell: '/bin/bash' }).trim();
+          return result === '1';
+        } catch (bashError) {
+          console.warn(`⚠️ Failed to evaluate bash condition: ${condition}`);
+          return false;
+        }
+      } else {
+        // JavaScript evaluation (existing behavior)
+        const func = new Function(...Object.keys(this.context.variables), 'results', `return ${substituted}`);
+        return Boolean(func(...Object.values(this.context.variables), this.context.results));
+      }
     } catch (error) {
       console.warn(`⚠️ Failed to evaluate condition: ${condition}`);
       return false;

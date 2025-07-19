@@ -1,0 +1,41 @@
+name: JavaScript Condition Example
+description: Demonstrates using JavaScript conditions (requires conditionType: javascript)
+
+steps:
+  - type: command
+    name: Check config file
+    command: test -f config.json
+    continueOnError: true
+    saveResultAs: configExists
+    
+  - type: prompt
+    name: Create config if missing
+    prompt: Create a default config.json file
+    condition: "${!results.configExists?.success}"
+    conditionType: javascript
+    
+  - type: command
+    name: Set initial counter
+    command: echo 0
+    saveResultAs: counter
+    
+  - type: loop
+    name: JavaScript counter loop
+    condition: "${counter < 5}"
+    conditionType: javascript
+    maxIterations: 10
+    steps:
+      - type: command
+        name: Show counter
+        command: echo "Counter is ${counter}"
+        
+      - type: command
+        name: Increment counter  
+        command: expr ${counter} + 1
+        saveResultAs: counter
+        
+  - type: command
+    name: Complex JavaScript condition
+    command: echo "Running complex condition"
+    condition: "${results.counter >= 5 && results.configExists?.success === false}"
+    conditionType: javascript

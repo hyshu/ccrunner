@@ -17,6 +17,7 @@ export interface BaseStep {
   description?: string;
   continueOnError?: boolean;
   condition?: string;
+  conditionType?: 'javascript' | 'bash';
 }
 
 export interface PromptStep extends BaseStep {
