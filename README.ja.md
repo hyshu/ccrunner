@@ -59,17 +59,15 @@ npm run dev examples/simple.yaml
 
 | オプション | 型 | 必須 | 説明 |
 |-----------|-----|------|------|
-| `name` | string | **必須** | タスクの名前 |
+| `name` | string | 任意 | タスクの名前 |
 | `description` | string | 任意 | タスクの説明 |
 | `version` | string | 任意 | バージョン識別子 |
 | `variables` | object | 任意 | キーと値のペアによるグローバル変数 |
 | `steps` | array | **必須** | 実行するステップの配列 |
 | `yolo` | boolean | 任意 | trueの場合、toolsが定義されていないプロンプトで全てのツールを許可（デフォルト: false） |
 
-例：
+最小限の例：
 ```yaml
-name: My Task
-
 steps:
   - type: command
     command: echo "Hello"

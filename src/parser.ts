@@ -25,7 +25,10 @@ export class YAMLParser {
       throw new Error(`${this.ERROR_PREFIX} Root must be an object`);
     }
 
-    this.validateRequiredField(config.name, '', 'name', 'string');
+    if (config.name !== undefined && typeof config.name !== 'string') {
+      throw new Error(`${this.ERROR_PREFIX} "name" field must be a string`);
+    }
+
     this.validateArray(config.steps, '', 'steps', false);
 
     if (config.addDir !== undefined) {

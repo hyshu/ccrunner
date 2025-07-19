@@ -61,17 +61,15 @@ npm run dev examples/simple.yaml
 
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
-| `name` | string | **Yes** | The name of the task |
+| `name` | string | No | The name of the task |
 | `description` | string | No | Optional description of what the task does |
 | `version` | string | No | Optional version identifier |
 | `variables` | object | No | Global variables as key-value pairs |
 | `steps` | array | **Yes** | Array of steps to execute |
 | `yolo` | boolean | No | When true, allows all tools for prompts without defined tools (default: false) |
 
-Example:
+Minimal Example:
 ```yaml
-name: My Task
-
 steps:
   - type: command
     command: echo "Hello"

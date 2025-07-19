@@ -1,7 +1,7 @@
 // YAML Agent Runner Type Definitions
 
 export interface YAMLAgentConfig {
-  name: string;
+  name?: string;
   description?: string;
   version?: string;
   variables?: Record<string, any>;

@@ -30,7 +30,7 @@ export class Executor {
   }
 
   async execute(config: YAMLAgentConfig): Promise<void> {
-    console.log(`\n🚀 Starting execution of: ${config.name}`);
+    console.log(`\n🚀 Starting execution of: ${config.name || 'Unnamed Task'}`);
     if (config.description) {
       console.log(`📝 Description: ${config.description}`);
     }
