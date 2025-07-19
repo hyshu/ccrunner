@@ -5,7 +5,7 @@ import { formatError } from './utils/common.js';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const VERSION = '0.0.6';
+const VERSION = '0.0.7';
 
 async function main() {
   // Get command line arguments
