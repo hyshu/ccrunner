@@ -16,7 +16,7 @@
     "example": "examples"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^1.0.51",
+    "@anthropic-ai/claude-code": "^1.0.72",
     "yaml": "^2.8.0"
   },
   "author": "aq",
