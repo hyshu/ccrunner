@@ -16,7 +16,7 @@
     "example": "examples"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^1.0.72",
+    "@anthropic-ai/claude-agent-sdk": "^0.1.19",
     "yaml": "^2.8.0"
   },
   "author": "aq",
@@ -27,7 +27,7 @@
   },
   "keywords": [
     "claude",
-    "claude-code",
+    "claude-agent-sdk",
     "agent",
     "runner",
     "yaml",

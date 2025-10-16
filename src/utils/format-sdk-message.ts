@@ -1,4 +1,4 @@
-import type { SDKMessage } from "@anthropic-ai/claude-code";
+import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
 
 // Format SDKMessage for console output
 export function formatSDKMessage(message: SDKMessage): void {
@@ -8,15 +8,19 @@ export function formatSDKMessage(message: SDKMessage): void {
     case 'system':
       console.log(`\n📌 [${timestamp}] System Message`);
       console.log(`   Subtype: ${message.subtype}`);
-      console.log(`   Model: ${message.model}`);
-      console.log(`   CWD: ${message.cwd}`);
-      console.log(`   Session ID: ${message.session_id}`);
-      console.log(`   Tools: ${message.tools.join(', ')}`);
-      if (message.mcp_servers && message.mcp_servers.length > 0) {
-        console.log(`   MCP Servers: ${message.mcp_servers.join(', ')}`);
+
+      // Type guard to check if this is an init message
+      if (message.subtype === 'init') {
+        console.log(`   Model: ${message.model}`);
+        console.log(`   CWD: ${message.cwd}`);
+        console.log(`   Session ID: ${message.session_id}`);
+        console.log(`   Tools: ${message.tools.join(', ')}`);
+        if (message.mcp_servers && message.mcp_servers.length > 0) {
+          console.log(`   MCP Servers: ${message.mcp_servers.map(s => s.name).join(', ')}`);
+        }
+        console.log(`   Permission Mode: ${message.permissionMode}`);
+        console.log(`   API Key Source: ${message.apiKeySource}`);
       }
-      console.log(`   Permission Mode: ${message.permissionMode}`);
-      console.log(`   API Key Source: ${message.apiKeySource}`);
       break;
 
     case 'user':

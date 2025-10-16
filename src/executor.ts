@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { query } from '@anthropic-ai/claude-code';
-import type { SDKMessage } from '@anthropic-ai/claude-code';
+import { query } from '@anthropic-ai/claude-agent-sdk';
+import type { SDKMessage } from '@anthropic-ai/claude-agent-sdk';
 import { formatSDKMessage } from './utils/format-sdk-message.js';
 import { formatError } from './utils/common.js';
 import {
